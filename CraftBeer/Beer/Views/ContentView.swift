@@ -13,10 +13,9 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            // 🔸 Replace this with whatever your new app does
-            Text("Home Screen")
+            BeerDirectoryView()                      
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Label("Beers", systemImage: "mug")
                 }
 
             ProfileView()

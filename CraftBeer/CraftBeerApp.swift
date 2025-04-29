@@ -8,19 +8,24 @@
 import SwiftUI
 import SwiftData
 import FirebaseCore
+import FirebaseAuth
 
 @main
 struct CraftBeerApp: App {
     @StateObject private var session = SessionManager()
-    
-    init() { FirebaseApp.configure() }
-    
+
+    init() {
+        FirebaseApp.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
             if session.user != nil {
                 ContentView()
+                    .environmentObject(session)
             } else {
-                SignInView()
+                SignInView()          // 🔒 user must log in
+                    .environmentObject(session)
             }
         }
     }

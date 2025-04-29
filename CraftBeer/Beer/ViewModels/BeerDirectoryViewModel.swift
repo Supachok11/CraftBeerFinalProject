@@ -20,16 +20,16 @@ class BeerDirectoryViewModel: ObservableObject {
     
     func fetchBeers() {
         isLoading = true
-        
-        FirebaseService.shared.fetchBeers { [weak self] beers, error in
+
+        FirebaseService.shared.fetchBeers { [weak self] (beers: [Beer]?, error: Error?) in
             DispatchQueue.main.async {
                 self?.isLoading = false
-                
+
                 if let error = error {
                     self?.errorMessage = ErrorMessage(message: "Failed to load beers: \(error.localizedDescription)")
                     return
                 }
-                
+
                 self?.allBeers = beers ?? []
                 self?.applyFilters()
             }
