@@ -39,20 +39,28 @@ struct SignUpView: View {
                 .frame(maxWidth: .infinity)
         }
         .padding()
-        .toolbar { Button("Close", role: .cancel) { dismiss() } }
+        .toolbar { Button("Close", role: .cancel) {
+            dismiss()
+            }
+        }
         .alert("Account created! Please sign in.", isPresented: $showOK) {
             Button("OK") { dismiss() }
         }
     }
 
     private func signUp() {
-        guard password == confirm else { errorMsg = "Passwords don’t match"; return }
+        guard password == confirm else {
+            errorMsg = "Passwords don’t match"
+            return
+        }
         Task {
             do {
                 try await Auth.auth().createUser(withEmail: email, password: password)
                 try? Auth.auth().signOut()
                 showOK = true
-            } catch { errorMsg = error.localizedDescription }
+            } catch {
+                errorMsg = error.localizedDescription
+            }
         }
     }
 }

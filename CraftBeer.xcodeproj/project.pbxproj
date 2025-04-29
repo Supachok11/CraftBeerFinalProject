@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		04C9E0B62DC119FB00D0A970 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 04C9E0B52DC119FB00D0A970 /* FirebaseAnalytics */; };
+		04C9E0B82DC119FB00D0A970 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 04C9E0B72DC119FB00D0A970 /* FirebaseAuth */; };
+		04C9E0BA2DC119FB00D0A970 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 04C9E0B92DC119FB00D0A970 /* FirebaseCore */; };
+		04C9E0BC2DC119FB00D0A970 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 04C9E0BB2DC119FB00D0A970 /* FirebaseDatabase */; };
+		04C9E0BE2DC119FB00D0A970 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 04C9E0BD2DC119FB00D0A970 /* FirebaseFirestore */; };
+		04C9E0C02DC119FB00D0A970 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C9E0BF2DC119FB00D0A970 /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		04C9E0A12DC118CB00D0A970 /* CraftBeer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CraftBeer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +32,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C9E0B62DC119FB00D0A970 /* FirebaseAnalytics in Frameworks */,
+				04C9E0BA2DC119FB00D0A970 /* FirebaseCore in Frameworks */,
+				04C9E0BC2DC119FB00D0A970 /* FirebaseDatabase in Frameworks */,
+				04C9E0BE2DC119FB00D0A970 /* FirebaseFirestore in Frameworks */,
+				04C9E0B82DC119FB00D0A970 /* FirebaseAuth in Frameworks */,
+				04C9E0C02DC119FB00D0A970 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +80,12 @@
 			);
 			name = CraftBeer;
 			packageProductDependencies = (
+				04C9E0B52DC119FB00D0A970 /* FirebaseAnalytics */,
+				04C9E0B72DC119FB00D0A970 /* FirebaseAuth */,
+				04C9E0B92DC119FB00D0A970 /* FirebaseCore */,
+				04C9E0BB2DC119FB00D0A970 /* FirebaseDatabase */,
+				04C9E0BD2DC119FB00D0A970 /* FirebaseFirestore */,
+				04C9E0BF2DC119FB00D0A970 /* FirebaseStorage */,
 			);
 			productName = CraftBeer;
 			productReference = 04C9E0A12DC118CB00D0A970 /* CraftBeer.app */;
@@ -94,6 +115,9 @@
 			);
 			mainGroup = 04C9E0982DC118CB00D0A970;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04C9E0A22DC118CB00D0A970 /* Products */;
 			projectDirPath = "";
@@ -252,6 +276,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CraftBeer/Preview Content\"";
+				DEVELOPMENT_TEAM = RYH7D39SCF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -280,6 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CraftBeer/Preview Content\"";
+				DEVELOPMENT_TEAM = RYH7D39SCF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -322,6 +348,50 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		04C9E0B52DC119FB00D0A970 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		04C9E0B72DC119FB00D0A970 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		04C9E0B92DC119FB00D0A970 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		04C9E0BB2DC119FB00D0A970 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		04C9E0BD2DC119FB00D0A970 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		04C9E0BF2DC119FB00D0A970 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04C9E0B42DC119FB00D0A970 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 04C9E0992DC118CB00D0A970 /* Project object */;
 }

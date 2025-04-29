@@ -27,9 +27,14 @@ struct ProfileView: View {
                     }
                 }
                 Section("Account") {
-                    Button("Log Out", role: .destructive) { logOut() }
+                    Button("Log Out", role: .destructive) {
+                        logOut()
+                    }
                 }
-                if let err { Section { Text(err).foregroundColor(.red) } }
+                if let err { Section {
+                    Text(err).foregroundColor(.red)
+                    }
+                }
             }
             .navigationTitle("Settings")
         }

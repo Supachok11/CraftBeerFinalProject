@@ -34,11 +34,15 @@ struct SignInView: View {
                         .font(.caption)
                 }
 
-                Button("Sign In") { signIn() }
+                Button("Sign In") {
+                    signIn()
+                }
                     .buttonStyle(.borderedProminent)
                     .frame(maxWidth: .infinity)
 
-                NavigationLink("Create a new account") { SignUpView() }
+                NavigationLink("Create a new account") {
+                    SignUpView()
+                }
                     .font(.footnote)
             }
             .padding()
