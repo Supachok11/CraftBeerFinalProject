@@ -28,7 +28,7 @@ struct SignInView: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(.roundedBorder)
 
-                if let error {
+                if error != nil {
                     Text("Invalid email or password")
                         .foregroundColor(.red)
                         .font(.caption)

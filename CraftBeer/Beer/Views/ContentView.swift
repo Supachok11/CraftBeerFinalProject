@@ -13,16 +13,23 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            BeerDirectoryView()                      
-                .tabItem {
-                    Label("Beers", systemImage: "mug")
+            BeerDirectoryView()
+                .tabItem { Label("Beers", systemImage: "mug")
+                }
+
+            FavoritesView()                   
+                .tabItem { Label("Favorites", systemImage: "heart")
+                }
+            
+            MyLogView()
+                .tabItem { Label("My Log", systemImage:"note.text")
                 }
 
             ProfileView()
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape")
+                .tabItem { Label("Settings", systemImage: "gearshape")
                 }
         }
+
         .onAppear {
             if justLoggedIn {
                 showWelcome = true

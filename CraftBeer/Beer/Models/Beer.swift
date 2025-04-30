@@ -39,3 +39,13 @@ struct Beer: Identifiable, Codable {
         releaseYear: nil
     )
 }
+
+struct BeerLogEntry: Identifiable, Codable {
+    @DocumentID var id: String?               // Firestore doc-id
+    var userId:   String
+    var beerId:   String
+    var beerName: String
+    var rating:   Double
+    var notes:    String
+    var loggedDate: Date
+}
