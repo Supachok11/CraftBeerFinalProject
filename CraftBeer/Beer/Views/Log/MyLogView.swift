@@ -10,64 +10,106 @@ import Kingfisher
 
 struct MyLogView: View {
     @StateObject private var vm = BeerLogListViewModel()
+
     @State private var editingEntry: BeerLogEntry?
-    @State private var rating = 3.0
-    @State private var notes  = ""
+    @State private var rating: Double = 3
+    @State private var notes:  String = ""
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(vm.logs) { log in
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text(log.beerName).font(.headline)
-                            Spacer()
-                            Text(String(format: "%.1f ★", log.rating))
-                                .foregroundColor(.yellow)
+            ZStack {
+                Color("BackgroundColor").ignoresSafeArea()
+
+                // ───────── EMPTY / LOADING / LIST STATES ─────────
+                if vm.isLoading {
+                    ProgressView("Loading logs…")
+                } else if vm.logs.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "note.text")
+                            .font(.system(size: 64))
+                            .foregroundColor(.gray)
+                        Text("No Beer Log yet")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                    }
+                } else {
+                    List {
+                        ForEach(vm.logs) { log in
+                            logRow(log)
+                                .swipeActions {
+                                    Button(role: .destructive) { vm.delete(log) } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                    Button { startEdit(log) } label: {
+                                        Label("Edit", systemImage: "pencil")
+                                    }.tint(.orange)
+                                }
                         }
-                        Text(log.notes).font(.body)
-                        Text(log.loggedDate.formatted(date: .abbreviated, time: .shortened))
-                            .font(.caption).foregroundColor(.secondary)
                     }
-                    .swipeActions(edge: .trailing) {
-                        Button(role: .destructive) { vm.delete(log) } label: { Label("Delete", systemImage:"trash") }
-                        Button { startEdit(log) } label: { Label("Edit", systemImage:"pencil") }.tint(.orange)
-                    }
+                    .scrollContentBackground(.hidden)
                 }
             }
             .navigationTitle("My Beer Log")
             .onAppear { vm.start() }
             .onDisappear { vm.stop() }
             .alert(item: $vm.error) { e in
-                Alert(title: Text("Error"), message: Text(e.message), dismissButton: .default(Text("OK")))
+                Alert(title: Text("Error"),
+                      message: Text(e.message),
+                      dismissButton: .default(Text("OK")))
             }
+            // ───────── EDIT SHEET ─────────
             .sheet(item: $editingEntry) { entry in
                 NavigationStack {
                     Form {
                         Section("Rating") {
                             Slider(value: $rating, in: 0...5, step: 0.5)
-                            Text(String(format:"%.1f ★", rating))
+                            Text(String(format: "%.1f ★", rating))
                         }
-                        Section("Notes") { TextEditor(text: $notes).frame(height:120) }
+                        Section("Notes") {
+                            TextEditor(text: $notes)
+                                .frame(height: 120)
+                        }
                     }
                     .navigationTitle("Edit Entry")
                     .toolbar {
-                        ToolbarItem(placement:.confirmationAction) {
+                        ToolbarItem(placement: .confirmationAction) {
                             Button("Save") {
-                                vm.update(entry: entry, rating: rating, notes: notes)
+                                vm.update(entry: entry,
+                                          rating: rating,
+                                          notes: notes)
                                 editingEntry = nil
                             }
                         }
-                        ToolbarItem(placement:.cancellationAction) { Button("Close", role:.cancel) { editingEntry=nil } }
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Close", role: .cancel) { editingEntry = nil }
+                        }
                     }
                 }
             }
         }
     }
+
+    // MARK: – Helpers
     private func startEdit(_ entry: BeerLogEntry) {
         editingEntry = entry
         rating = entry.rating
         notes  = entry.notes
     }
+
+    @ViewBuilder
+    private func logRow(_ log: BeerLogEntry) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text(log.beerName).font(.headline)
+                Spacer()
+                Text(String(format: "%.1f ★", log.rating))
+                    .foregroundColor(.yellow)
+            }
+            Text(log.notes).font(.body)
+            Text(log.loggedDate.formatted(date: .abbreviated, time: .shortened))
+                .font(.caption).foregroundColor(.secondary)
+        }
+    }
 }
+
 

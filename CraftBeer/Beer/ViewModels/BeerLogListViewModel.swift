@@ -13,20 +13,30 @@ import FirebaseFirestore
 final class BeerLogListViewModel: ObservableObject {
     @Published var logs: [BeerLogEntry] = []
     @Published var error: ErrorMessage?
+    @Published var isLoading = false
 
     private var listener: ListenerRegistration?
 
     func start() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        listener = Firestore.firestore()
-            .collection("userLogs")
-            .whereField("userId", isEqualTo: uid)
-            .order(by: "loggedDate", descending: true)
-            .addSnapshotListener { [weak self] snap, err in
-                if let err { self?.error = .init(message: err.localizedDescription); return }
-                self?.logs = snap?.documents.compactMap { try? $0.data(as: BeerLogEntry.self) } ?? []
-            }
-    }
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            isLoading = true                         // start spinner
+
+            listener = Firestore.firestore()
+                .collection("userLogs")
+                .whereField("userId", isEqualTo: uid)
+                .order(by: "loggedDate", descending: true)
+                .addSnapshotListener { [weak self] snap, err in
+                    self?.isLoading = false          // stop spinner
+                    if let err {
+                        self?.error = ErrorMessage(message: err.localizedDescription)
+                        return
+                    }
+                    self?.logs = snap?.documents.compactMap {
+                        try? $0.data(as: BeerLogEntry.self)
+                    } ?? []
+                }
+        }
+    
     func stop() { listener?.remove(); listener = nil }
 
     // delete
