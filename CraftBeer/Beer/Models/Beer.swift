@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 import FirebaseFirestore   // for @DocumentID
 
 /// Craft-beer entity pulled from Firestore’s **“beers”** collection.
@@ -48,4 +49,11 @@ struct BeerLogEntry: Identifiable, Codable {
     var rating:   Double
     var notes:    String
     var loggedDate: Date
+}
+
+
+struct BarLocation: Identifiable {
+    let id   = UUID()
+    let name: String
+    let coordinate: CLLocationCoordinate2D
 }
