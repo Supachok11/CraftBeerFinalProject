@@ -24,6 +24,9 @@ struct ContentView: View {
             MyLogView()
                 .tabItem { Label("My Log", systemImage:"note.text")
                 }
+            
+            BeerMapView()
+                    .tabItem { Label("Map", systemImage: "map") }
 
             ProfileView()
                 .tabItem { Label("Settings", systemImage: "gearshape")

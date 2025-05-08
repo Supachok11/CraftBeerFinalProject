@@ -20,9 +20,22 @@
 		04C9E0A12DC118CB00D0A970 /* CraftBeer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CraftBeer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		04C0009F2DCCBCE0007093D7 /* Exceptions for "CraftBeer" folder in "CraftBeer" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 04C9E0A02DC118CB00D0A970 /* CraftBeer */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		04C9E0A32DC118CB00D0A970 /* CraftBeer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				04C0009F2DCCBCE0007093D7 /* Exceptions for "CraftBeer" folder in "CraftBeer" target */,
+			);
 			path = CraftBeer;
 			sourceTree = "<group>";
 		};
@@ -283,6 +296,8 @@
 				DEVELOPMENT_TEAM = RYH7D39SCF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CraftBeer/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show nearby craft-beer bars";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -312,6 +327,8 @@
 				DEVELOPMENT_TEAM = RYH7D39SCF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CraftBeer/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show nearby craft-beer bars";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
