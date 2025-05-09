@@ -62,7 +62,7 @@ struct SignInView: View {
 
                     // Error message
                     if let error {
-                        Text(error)
+                        Text("Invalid email or password")
                             .foregroundColor(.red)
                             .font(.caption)
                             .multilineTextAlignment(.center)
