@@ -2,3 +2,11 @@ GoogleService-Info.plist
 serviceAccountKey.json
 
 node_modules/
+
+# Xcode build artifacts
+DerivedData/
+build/
+
+# Xcode user settings
+*.xcuserstate
+xcuserdata/
