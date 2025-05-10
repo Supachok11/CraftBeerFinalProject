@@ -21,8 +21,8 @@ struct BeerFilterView: View {
     @State private var abvMax: Double = 15
     
     // Populate with your own beer styles and breweries
-    let availableStyles = ["IPA", "Stout", "Lager", "Pale Ale", "Wheat Beer", "Porter", "Sour", "Pilsner"]
-    let availableBreweries = ["Outlaw Brewing", "Happy New Beer", "Full Moon Brewworks", "Chit Beer", "Wizard Brewing", "Sandport", "Taopiphop"]
+    let availableStyles = ["Stout", "Lager", "Pale Ale", "Wheat Ale", "White Ale", "India Pale Ale", "Pilsner", "Fruited Sour", "Herb/Spieced Ale", "Sigle-Hop IPA", "Red IPA", "Imperial Red Ale", "Hefeweizen", "New England IPA", "Sour Pale Ale", "Fruit Beer", "Belgian Witbier", "Golden Ale", "Cream Ale"]
+    let availableBreweries = ["Outlaw Brewing", "Mahanakhon Brewery", "Full Moon Brewworks", "Chitbeer", "Wizard Beer", "Sandport Brewery", "Devanom Brewery", "Stone Head Brewery", "Chiang Mai Beer", "72 Brewing", "Eleventh Fort Brewing", "Team Alpha Brewing", "Chant'LA จันฑ'ลา", "Samata Brewing", "Sriracha Brew", "Chiang Mai Brewery", "Sivilai", "Muay Thai Craft", "Beach Boys Brewery"]
     
     var body: some View {
         NavigationView {
