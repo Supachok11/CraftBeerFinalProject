@@ -1,17 +1,6 @@
-# macOS
-.DS_Store
-
-# Xcode
-DerivedData/
-# (you can add any other Xcode / SwiftUI build folders you like)
-
 # Firebase secrets
 GoogleService-Info.plist
 serviceAccountKey.json    # your Admin SDK key
 
 # Node.js dependencies
 node_modules/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
