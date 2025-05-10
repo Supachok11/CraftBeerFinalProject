@@ -1,6 +1,4 @@
-# Firebase secrets
 GoogleService-Info.plist
-serviceAccountKey.json    # your Admin SDK key
+serviceAccountKey.json
 
-# Node.js dependencies
 node_modules/
