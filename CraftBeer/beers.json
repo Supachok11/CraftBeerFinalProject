@@ -1,0 +1,212 @@
+[
+  {
+    "Name": "Chalawan Pale Ale",
+    "Brewery": "Full Moon Brewworks",
+    "Style": "Pale Ale",
+    "ABV": 0.047,
+    "Description": "An award-winning pale ale with a balanced blend of citrus and tropical fruit aromas, complemented by a crisp malt backbone."
+  },
+  {
+    "Name": "Chatri IPA",
+    "Brewery": "Full Moon Brewworks",
+    "Style": "India Pale Ale",
+    "ABV": 0.052,
+    "Description": "A rich IPA featuring bold citrus and floral notes from Galaxy, Citra, and Cascade hops, balanced by a solid malt backbone."
+  },
+  {
+    "Name": "Bussaba Ex-Weisse",
+    "Brewery": "Full Moon Brewworks",
+    "Style": "Wheat Ale (Hefeweizen)",
+    "ABV": 0.047,
+    "Description": "A smooth, cloudy wheat beer brewed with German yeast and infused with Thai ginger flower, offering delicate fruity notes and a hint of spice."
+  },
+  {
+    "Name": "Mahanakhon White Ale",
+    "Brewery": "Mahanakhon Brewery",
+    "Style": "White Ale",
+    "ABV": 0.05,
+    "Description": "A smooth and aromatic ale inspired by Bangkok's vibrant culture, with hints of citrus and spice."
+  },
+  {
+    "Name": "Mahanakhon Pale Ale",
+    "Brewery": "Mahanakhon Brewery",
+    "Style": "Pale Ale",
+    "ABV": 0.055,
+    "Description": "A well-balanced pale ale showcasing tropical fruit aromas and a crisp finish."
+  },
+  {
+    "Name": "Devanom Red is More",
+    "Brewery": "Devanom Brewery",
+    "Style": "Red IPA",
+    "ABV": 0.065,
+    "Description": "A robust Red IPA featuring rich malt flavors balanced by a hoppy bitterness, recognized for its quality in local beer competitions."
+  },
+  {
+    "Name": "OverClock NEIPA",
+    "Brewery": "Devanom Brewery",
+    "Style": "New England IPA",
+    "ABV": 0.07,
+    "Description": "A hazy, juicy IPA brewed with local Nonthaburi hops and tropical fruit aromas."
+  },
+  {
+    "Name": "Broken Sword Imperial Red Ale",
+    "Brewery": "Sandport Brewery",
+    "Style": "Imperial Red Ale",
+    "ABV": 0.07,
+    "Description": "An intense red ale brewed with roselle (hibiscus) flower, offering a deep ruby hue and floral tartness in the aroma."
+  },
+  {
+    "Name": "Bang Bang IPA",
+    "Brewery": "Sandport Brewery",
+    "Style": "India Pale Ale",
+    "ABV": 0.065,
+    "Description": "An American-style IPA bursting with hoppy goodness, featuring citrus and pine notes from an international hop blend."
+  },
+  {
+    "Name": "Mosaic IPA",
+    "Brewery": "Outlaw Brewing",
+    "Style": "Single-Hop IPA",
+    "ABV": 0.065,
+    "Description": "Outlaw’s flagship IPA, single-hopped with Mosaic, delivering dank tropical fruit character with a slightly sweet malt base."
+  },
+  {
+    "Name": "Gateway IPA",
+    "Brewery": "Outlaw Brewing",
+    "Style": "IPA (American)",
+    "ABV": 0.067,
+    "Description": "An easy-going IPA meant to introduce drinkers to craft beer, with passionfruit and citrus aromas from Australian Galaxy hops."
+  },
+  {
+    "Name": "Citrus Wit",
+    "Brewery": "Wizard Beer",
+    "Style": "Belgian Witbier",
+    "ABV": 0.05,
+    "Description": "A refreshing witbier brewed with added citrus zest, offering aromas of orange peel and lemongrass."
+  },
+  {
+    "Name": "Wizard IPA",
+    "Brewery": "Wizard Beer",
+    "Style": "India Pale Ale",
+    "ABV": 0.06,
+    "Description": "An American IPA delivering a solid hop profile without overwhelming bitterness, featuring citrus and tropical fruit notes."
+  },
+  {
+    "Name": "Tuk Tuk Cream Ale",
+    "Brewery": "Stone Head Brewery",
+    "Style": "Cream Ale",
+    "ABV": 0.057,
+    "Description": "A straw-colored, mildly fruity ale named after Thailand’s iconic tuk-tuk, offering a smooth, easy-drinking experience."
+  },
+  {
+    "Name": "Red Roselle Ale",
+    "Brewery": "Stone Head Brewery",
+    "Style": "Herb/Spiced Ale",
+    "ABV": 0.047,
+    "Description": "An ale brewed with Thai roselle (hibiscus), imparting a reddish hue and tart floral notes."
+  },
+  {
+    "Name": "Chiang Mai Weizen",
+    "Brewery": "Chiang Mai Beer",
+    "Style": "Hefeweizen",
+    "ABV": 0.05,
+    "Description": "A Bavarian-style wheat beer known for its approachability and consistency, offering classic notes of banana bread and clove."
+  },
+  {
+    "Name": "In Between",
+    "Brewery": "72 Brewing",
+    "Style": "Sour Pale Ale",
+    "ABV": 0.05,
+    "Description": "An inventive sour pale ale brewed with local produce, including beetroot and Chiang Mai strawberries, creating a tart, funky beer with a striking pink hue."
+  },
+  {
+    "Name": "Fort IPA",
+    "Brewery": "Eleventh Fort Brewing",
+    "Style": "India Pale Ale",
+    "ABV": 0.06,
+    "Description": "A solid IPA featuring a blend of American “C-hops” giving grapefruit and pine notes atop a 6% malt base."
+  },
+  {
+    "Name": "Shogun IPA",
+    "Brewery": "Chitbeer",
+    "Style": "India Pale Ale",
+    "ABV": 0.06,
+    "Description": "A citrusy American IPA available at Chitbeer's riverside microbrewery on Ko Kret island, showcasing the spirit of Thai craft beer innovation."
+  },
+  {
+    "Name": "Bangkok Sunburn",
+    "Brewery": "Team Alpha Brewing",
+    "Style": "India Pale Ale",
+    "ABV": 0.065,
+    "Description": "A vibrant IPA with tropical fruit notes and a balanced bitterness, capturing the essence of Bangkok's sunny disposition."
+  },
+  {
+    "Name": "Nampun",
+    "Brewery": "Chant'LA จัณฑ'ลา",
+    "Style": "Fruit Beer",
+    "ABV": 0.05,
+    "Description": "A unique blend of tangerine and Thai tea flavors, offering a refreshing and aromatic experience."
+  },
+  {
+    "Name": "POG",
+    "Brewery": "Samata Brewing",
+    "Style": "Fruited Sour",
+    "ABV": 0.055,
+    "Description": "A tropical sour ale brewed with passionfruit, orange, and guava, delivering a tangy and fruity profile."
+  },
+  {
+    "Name": "Fruit Party",
+    "Brewery": "Samata Brewing",
+    "Style": "Fruited Sour",
+    "ABV": 0.05,
+    "Description": "A lively sour ale bursting with a medley of fruit flavors, perfect for those seeking a tart and refreshing beer."
+  },
+  {
+    "Name": "SRIRACHA NAKHON",
+    "Brewery": "Sriracha Brew",
+    "Style": "Pale Ale",
+    "ABV": 0.052,
+    "Description": "A crisp pale ale with subtle hop bitterness and a clean finish, representing the flavors of Sriracha city"
+  },
+  {
+    "Name": "Kwai IPA",
+    "Brewery": "Chiang Mai Brewery",
+    "Style": "India Pale Ale",
+    "ABV": 0.06,
+    "Description": "A well-crafted IPA with a balanced hop profile, offering citrus and pine notes."
+  },
+  {
+    "Name": "Sivilai Lager",
+    "Brewery": "Sivilai",
+    "Style": "Lager",
+    "ABV": 0.05,
+    "Description": "A clean and crisp lager, providing a refreshing taste suitable for Thailand's tropical climate."
+  },
+  {
+    "Name": "Hazelnut Chocolate Stout",
+    "Brewery": "Stone Head Brewery",
+    "Style": "Stout",
+    "ABV": 0.065,
+    "Description": "A rich and creamy stout infused with hazelnut and chocolate flavors, offering a dessert-like experience."
+  },
+  {
+    "Name": "Mee Chai",
+    "Brewery": "Muay Thai Craft",
+    "Style": "India Pale Ale",
+    "ABV": 0.055,
+    "Description": "A smooth IPA with floral and citrus notes, offering a balanced bitterness and a refreshing finish."
+  },
+  {
+    "Name": "Chok Dee",
+    "Brewery": "Muay Thai Craft",
+    "Style": "Pilsner",
+    "ABV": 0.048,
+    "Description": "A crisp and clean pilsner with subtle floral aromas and a light malt backbone, perfect for hot Thai days."
+  },
+  {
+    "Name": "Beach Boys Golden Ale",
+    "Brewery": "Beach Boys Brewery",
+    "Style": "Golden Ale",
+    "ABV": 0.045,
+    "Description": "A light and refreshing ale with prominent passionfruit notes, making it an easy-drinking choice for newcomers to craft beer."
+  }
+]
