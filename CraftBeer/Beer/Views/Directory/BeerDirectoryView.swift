@@ -8,11 +8,31 @@
 import SwiftUI
 import Firebase
 import Kingfisher
+import FirebaseAuth
+import FirebaseFirestore
+import Foundation
 
 struct BeerDirectoryView: View {
     @StateObject private var viewModel = BeerDirectoryViewModel()
     @State private var searchText = ""
     @State private var isFilterSheetPresented = false
+
+    // Recommendations based on favorites
+    @StateObject private var favVM = BeerFavoritesViewModel()
+
+    /// Compute top-favorite style and recommend beers matching it
+    private var recommendedBeers: [Beer] {
+        // Count favorite styles
+        let styles = favVM.favorites.map(\.style)
+        let counts = Dictionary(grouping: styles, by: { $0 }).mapValues(\.count)
+        guard let topStyle = counts.max(by: { $0.value < $1.value })?.key else {
+            return []
+        }
+        // Recommend up to 5 beers of that style
+        return viewModel.beers.filter { $0.style == topStyle && !favVM.favorites.map(\.id).contains($0.id ?? "") }
+                             .prefix(5)
+                             .map { $0 }
+    }
     
     var filteredBeers: [Beer] {
         if searchText.isEmpty {
@@ -28,59 +48,59 @@ struct BeerDirectoryView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Color("BackgroundColor").edgesIgnoringSafeArea(.all)
-                
-                if viewModel.isLoading {
-                    ProgressView("Loading beers...")
-                } else if viewModel.beers.isEmpty {
-                    VStack {
-                        Image(systemName: "mug.fill")
-                            .font(.system(size: 72))
-                            .foregroundColor(.gray)
-                        Text("No beers to display")
-                            .font(.headline)
-                            .padding()
-                        Button("Refresh") {
-                            viewModel.fetchBeers()
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 16) {
-                            ForEach(filteredBeers) { beer in
-                                NavigationLink(destination: BeerDetailView(beer: beer)) {
-                                    BeerCardView(beer: beer)
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    // Recommendations section
+                    if !recommendedBeers.isEmpty {
+                        VStack(alignment: .leading) {
+                            Text("Recommended for you")
+                                .font(.headline)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(alignment: .leading, spacing: 12) {
+                                    ForEach(recommendedBeers) { beer in
+                                        BeerCardView(beer: beer)
+                                            .frame(width: 200)
+                                    }
                                 }
-                                .buttonStyle(PlainButtonStyle())
+                                .padding(.leading)
                             }
                         }
-                        .padding()
+                    }
+                    // Beer list
+                    ForEach(filteredBeers) { beer in
+                        NavigationLink(destination: BeerDetailView(beer: beer)) {
+                            BeerCardView(beer: beer)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
+                .padding()
             }
+            .background(Color("BackgroundColor").edgesIgnoringSafeArea(.all))
             .navigationTitle("Thai Craft Beers")
-            .searchable(text: $searchText, prompt: "Search beers or breweries")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { isFilterSheetPresented = true }) {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                    }
+        }
+        .searchable(text: $searchText, prompt: "Search beers or breweries")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { isFilterSheetPresented = true }) {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
                 }
             }
-            .sheet(isPresented: $isFilterSheetPresented) {
-                BeerFilterView(activeFilters: $viewModel.activeFilters, applyFilters: viewModel.applyFilters)
+        }
+        .sheet(isPresented: $isFilterSheetPresented) {
+            BeerFilterView(activeFilters: $viewModel.activeFilters, applyFilters: viewModel.applyFilters)
+        }
+        .onAppear {
+            if viewModel.beers.isEmpty {
+                viewModel.fetchBeers()
             }
-            .onAppear {
-                if viewModel.beers.isEmpty {
-                    viewModel.fetchBeers()
-                }
-            }
-            .alert(item: $viewModel.errorMessage) { error in
-                Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
-            }
+            favVM.startListening()
+        }
+        .onDisappear {
+            favVM.stopListening()
+        }
+        .alert(item: $viewModel.errorMessage) { error in
+            Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("OK")))
         }
     }
 }
-
