@@ -82,20 +82,35 @@ struct BeerDirectoryView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack(spacing: 16) {
-                    recommendationSection
-                    beerListSection
+                VStack(spacing: 24) {
+                    // MARK: – Recommended for you
+                    if !recommendedBeers.isEmpty {
+                        recommendationSection
+                            .padding(.bottom, 16)
+                    }
+
+                    // MARK: – Beer list
+                    LazyVStack(spacing: 16) {
+                        ForEach(filteredBeers) { beer in
+                            NavigationLink(destination: BeerDetailView(beer: beer)) {
+                                BeerCardView(beer: beer)
+                                    .frame(maxWidth: .infinity, minHeight: 300)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
                 }
-                .padding()
+                .padding(.top, 16)
+                .padding(.horizontal)
             }
             .background(Color("BackgroundColor").edgesIgnoringSafeArea(.all))
             .navigationTitle("Thai Craft Beers")
-        }
-        .searchable(text: $searchText, prompt: "Search beers or breweries")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: { isFilterSheetPresented = true }) {
-                    Image(systemName: "line.3.horizontal.decrease.circle")
+            .searchable(text: $searchText, prompt: "Search beers or breweries")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { isFilterSheetPresented = true }) {
+                        Image(systemName: "line.3.horizontal.decrease.circle")
+                    }
                 }
             }
         }

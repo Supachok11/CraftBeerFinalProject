@@ -26,6 +26,7 @@ struct BeerCardView: View {
                             )
                     }
                     .resizable()
+                    .frame(maxWidth: .infinity)
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 200)
                     .clipped()
@@ -54,12 +55,8 @@ struct BeerCardView: View {
                 Text(beer.brewery)
                     .font(.caption)
                     .foregroundColor(.secondary)
-                
-                Text(beer.description)
-                    .font(.body)
-                    .foregroundColor(.primary)
-                    .lineLimit(2)
-                    .padding(.top, 2)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 10)
@@ -67,5 +64,7 @@ struct BeerCardView: View {
         .background(Color("CardBackground"))
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+        .frame(maxWidth: .infinity)
+        .frame(height: 300)
     }
 }

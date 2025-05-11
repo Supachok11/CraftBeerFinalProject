@@ -1,5 +1,5 @@
 {
-  "originHash" : "bc240f009e1fa45c62a841709821f40ecac7be19de79cf2a8db25e79d8ea121b",
+  "originHash" : "0e5761cd2203189e57602b58bc090c1a0bbf52d88d0fb5ede595e42060dd6d8a",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -125,6 +125,15 @@
       "state" : {
         "revision" : "d72aed98f8253ec1aa9ea1141e28150f408cf17f",
         "version" : "1.29.0"
+      }
+    },
+    {
+      "identity" : "waterfallgrid",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/paololeonardi/WaterfallGrid",
+      "state" : {
+        "revision" : "c7c08652c3540adf8e48409c351879b4caea7e89",
+        "version" : "1.1.0"
       }
     }
   ],
