@@ -46,33 +46,45 @@ struct BeerDirectoryView: View {
         }
     }
     
+    // MARK: – Subviews for body
+
+    private var recommendationSection: some View {
+        Group {
+            if !recommendedBeers.isEmpty {
+                VStack(alignment: .leading) {
+                    Text("Recommended for you")
+                        .font(.headline)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            ForEach(recommendedBeers) { beer in
+                                BeerCardView(beer: beer)
+                                    .frame(width: 200)
+                            }
+                        }
+                        .padding(.leading)
+                    }
+                }
+            }
+        }
+    }
+
+    private var beerListSection: some View {
+        Group {
+            ForEach(filteredBeers) { beer in
+                NavigationLink(destination: BeerDetailView(beer: beer)) {
+                    BeerCardView(beer: beer)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    // Recommendations section
-                    if !recommendedBeers.isEmpty {
-                        VStack(alignment: .leading) {
-                            Text("Recommended for you")
-                                .font(.headline)
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(alignment: .leading, spacing: 12) {
-                                    ForEach(recommendedBeers) { beer in
-                                        BeerCardView(beer: beer)
-                                            .frame(width: 200)
-                                    }
-                                }
-                                .padding(.leading)
-                            }
-                        }
-                    }
-                    // Beer list
-                    ForEach(filteredBeers) { beer in
-                        NavigationLink(destination: BeerDetailView(beer: beer)) {
-                            BeerCardView(beer: beer)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
+                    recommendationSection
+                    beerListSection
                 }
                 .padding()
             }

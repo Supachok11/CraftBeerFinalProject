@@ -6,7 +6,6 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestore
 
 /// Central place for all Firestore reads/writes that aren’t user-specific.
 final class FirebaseService {
