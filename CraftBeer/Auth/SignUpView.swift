@@ -107,11 +107,6 @@ struct SignUpView: View {
                     Spacer()
                 }
             }
-            .toolbar {
-                Button("Close", role: .cancel) {
-                    dismiss()
-                }
-            }
             .alert("Account created!", isPresented: $showOK) {
                 Button("OK") {
                     dismiss()

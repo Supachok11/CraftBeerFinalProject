@@ -18,90 +18,85 @@ struct SignInView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background gradient
-                LinearGradient(
-                    colors: [Color("GradientStart"), Color("GradientEnd")],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+            // Background gradient
+            LinearGradient(
+                colors: [Color("GradientStart"), Color("GradientEnd")],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
-                VStack(spacing: 32) {
-                    // App logo (set your asset in Assets.xcassets)
-                    Image("AppLogo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100)
-                        .padding(.top, 40)
-
-                    Text("Welcome")
-                        .font(.largeTitle.bold())
-                        .foregroundColor(.white)
-
-                    // Input card
+            VStack {
+                Spacer()
+                VStack(spacing: 24) {
+                    
+                    // White card container
                     VStack(spacing: 16) {
-                        IconTextField(
-                            systemIcon: "envelope",
-                            placeholder: "Email",
-                            text: $email,
-                            keyboard: .emailAddress,
-                            isSecure: false
-                        )
-                        IconTextField(
-                            systemIcon: "lock",
-                            placeholder: "Password",
-                            text: $password,
-                            keyboard: .default,
-                            isSecure: true
-                        )
-                    }
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 24)
+                        TextField("Email", text: $email)
+                            .keyboardType(.emailAddress)
+                            .autocapitalization(.none)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(10)
 
-                    // Error message
-                    if let error {
-                        Text("Invalid email or password")
-                            .foregroundColor(.red)
-                            .font(.caption)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 24)
-                    }
+                        SecureField("Password", text: $password)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(10)
 
-                    // Sign In button
-                    Button {
-                        signIn()
-                    } label: {
-                        if isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                .frame(maxWidth: .infinity)
-                        } else {
-                            Text("Sign In")
-                                .font(.headline)
-                                .frame(maxWidth: .infinity)
+                        // Forgot password link
+                        HStack {
+                            Spacer()
+                            NavigationLink("Forgot Password?", destination: PasswordResetView())
+                                .font(.footnote)
+                                .foregroundColor(.blue)
+                        }
+
+                        // Sign In button
+                        Button {
+                            signIn()
+                        } label: {
+                            if isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .frame(maxWidth: .infinity)
+                            } else {
+                                Text("SIGN\u{202F}IN")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                            }
+                        }
+                        .disabled(isLoading || email.isEmpty || password.isEmpty)
+                        .padding()
+                        .background((isLoading || email.isEmpty || password.isEmpty) ? Color.gray : Color.blue)
+                        .cornerRadius(10)
+
+                        // Error message
+                        if let error {
+                            Text(error)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 4)
                         }
                     }
-                    .disabled(isLoading || email.isEmpty || password.isEmpty)
                     .padding()
-                    .background(
-                        (isLoading || email.isEmpty || password.isEmpty)
-                        ? Color.gray
-                        : Color.accentColor
-                    )
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .background(Color.white)
+                    .cornerRadius(30)
                     .padding(.horizontal, 24)
 
-                    // Navigation to Sign Up
-                    NavigationLink("Create a new account", destination: SignUpView())
-                        .font(.footnote)
-                        .foregroundColor(.blue.opacity(0.8))
-                        .padding(.top, 8)
-
-                    Spacer()
+                    // Sign Up navigation
+                    HStack {
+                        Text("Don't have an account?")
+                            .foregroundColor(.white)
+                        NavigationLink("Sign\u{202F}Up", destination: SignUpView())
+                            .foregroundColor(.blue)
+                            .bold()
+                    }
                 }
+                Spacer()
+            }
             }
         }
     }
@@ -153,4 +148,4 @@ private struct IconTextField: View {
         .cornerRadius(8)
     }
 }
-
+    
