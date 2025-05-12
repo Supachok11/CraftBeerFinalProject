@@ -24,6 +24,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct CraftBeerApp: App {
     // register app delegate for Firebase setup
      @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
 
     @StateObject private var session = SessionManager()
@@ -34,7 +35,13 @@ struct CraftBeerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if session.user != nil {
+            if !hasSeenOnboarding {
+                OnboardingView()
+                    .environmentObject(session)
+                    .onDisappear {
+                        hasSeenOnboarding = true
+                    }
+            } else if session.user != nil {
                 ContentView()
                     .environmentObject(session)
             } else {
