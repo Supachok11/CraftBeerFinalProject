@@ -14,17 +14,19 @@ struct FavoritesView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("BackgroundColor").ignoresSafeArea()
+                Color("ColorBackground").ignoresSafeArea()
 
                 if vm.isLoading {
                     ProgressView("Loading favorites…")
+                        .tint(.primaryColor)
                 } else if vm.favorites.isEmpty {
                     VStack(spacing: 12) {
                         Image(systemName: "heart")
                             .font(.system(size: 64))
-                            .foregroundColor(.gray)
+                            .foregroundColor(.textSecondary)
                         Text("No favorites yet")
                             .font(.headline)
+                            .foregroundColor(.textSecondary)
                     }
                 } else {
                     ScrollView {
@@ -43,6 +45,7 @@ struct FavoritesView: View {
                 }
             }
             .navigationTitle("My Favorites")
+            .accentColor(.primary)
             .onAppear { vm.startListening() }
             .onDisappear { vm.stopListening() }
             .alert(item: $vm.error) { e in

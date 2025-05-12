@@ -52,9 +52,10 @@ struct ProfileView: View {
                                  ? Auth.auth().currentUser?.email ?? "Unknown"
                                  : displayName)
                             .font(.headline)
+                            .foregroundColor(.textPrimary)
                             Text("Logged in")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundColor(.textSecondary)
                         }
                     }
                 }
@@ -63,13 +64,17 @@ struct ProfileView: View {
                 Section("Activity") {
                     HStack {
                         Label("Favorites", systemImage: "heart")
+                            .foregroundColor(.textPrimary)
                         Spacer()
                         Text("\(favCount)")
+                            .foregroundColor(.textSecondary)
                     }
                     HStack {
                         Label("Log entries", systemImage: "note.text")
+                            .foregroundColor(.textPrimary)
                         Spacer()
                         Text("\(logCount)")
+                            .foregroundColor(.textSecondary)
                     }
                 }
                 
@@ -79,7 +84,9 @@ struct ProfileView: View {
                         .textInputAutocapitalization(.words)
                     
                     Button("Log Out", role: .destructive) { logOut() }
+                        .foregroundColor(.errorColor)
                     Button("Delete Account", role: .destructive) { confirmDelete() }
+                        .foregroundColor(.errorColor)
                 }
                 
                 // -------- appearance ------------
@@ -97,21 +104,24 @@ struct ProfileView: View {
                 }
                 
                 if let err {
-                    Section { Text(err).foregroundColor(.red) }
+                    Section { Text(err).foregroundColor(.errorColor) }
                 }
             }
-            .navigationTitle("Settings")
-            .onAppear {
-                loadCounts()
-                loadAvatar()
-            }
-            .sheet(isPresented: $showingImagePicker) {
-                ImagePicker(image: $avatarImage)
-            }
-            .onChange(of: avatarImage) { newImage in
-                if let img = newImage {
-                    uploadAvatar(img)
-                }
+            .scrollContentBackground(.hidden)
+            .background(Color.backgroundColor)
+        }
+        .accentColor(.primaryColor)
+        .navigationTitle("Settings")
+        .onAppear {
+            loadCounts()
+            loadAvatar()
+        }
+        .sheet(isPresented: $showingImagePicker) {
+            ImagePicker(image: $avatarImage)
+        }
+        .onChange(of: avatarImage) { newImage in
+            if let img = newImage {
+                uploadAvatar(img)
             }
         }
     }

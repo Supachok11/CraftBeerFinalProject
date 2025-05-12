@@ -18,19 +18,20 @@ struct MyLogView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("BackgroundColor").ignoresSafeArea()
+                Color("ColorBackgroundou").ignoresSafeArea()
 
                 // ───────── EMPTY / LOADING / LIST STATES ─────────
                 if vm.isLoading {
                     ProgressView("Loading logs…")
+                        .tint(.primaryColor)
                 } else if vm.logs.isEmpty {
                     VStack(spacing: 12) {
                         Image(systemName: "note.text")
                             .font(.system(size: 64))
-                            .foregroundColor(.gray)
+                            .foregroundColor(.textSecondary)
                         Text("No Beer Log yet")
                             .font(.headline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.textSecondary)
                     }
                 } else {
                     List {
@@ -61,6 +62,7 @@ struct MyLogView: View {
                 }
             }
             .navigationTitle("My Beer Log")
+            .accentColor(.primaryColor)
             .onAppear { vm.start() }
             .onDisappear { vm.stop() }
             .alert(item: $vm.error) { e in
@@ -122,7 +124,7 @@ struct MyLogView: View {
             }
             Text(log.notes).font(.body)
             Text(log.loggedDate.formatted(date: .abbreviated, time: .shortened))
-                .font(.caption).foregroundColor(.secondary)
+                .font(.caption).foregroundColor(.textSecondary)
         }
     }
 }
