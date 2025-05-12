@@ -57,8 +57,11 @@ struct BeerDirectoryView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
                             ForEach(recommendedBeers) { beer in
-                                BeerCardView(beer: beer)
-                                    .frame(width: 200)
+                                NavigationLink(destination: BeerDetailView(beer: beer)) {
+                                    BeerCardView(beer: beer)
+                                        .frame(width: 200)
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                         .padding(.leading)

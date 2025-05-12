@@ -25,6 +25,7 @@
 		04C0009F2DCCBCE0007093D7 /* Exceptions for "CraftBeer" folder in "CraftBeer" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Colors.swift,
 				Info.plist,
 			);
 			target = 04C9E0A02DC118CB00D0A970 /* CraftBeer */;

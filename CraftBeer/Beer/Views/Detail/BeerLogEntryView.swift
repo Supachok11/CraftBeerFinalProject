@@ -21,20 +21,53 @@ struct BeerLogEntryView: View {
     @State private var saving   = false
     @State private var errorMsg: String?
 
+    /// A view displaying interactive half-star rating.
+    struct StarRatingView: View {
+        @Binding var rating: Double
+        let maxRating: Int = 5
+
+        var body: some View {
+            GeometryReader { geo in
+                let fullWidth = geo.size.width
+                let stepWidth = fullWidth / CGFloat(maxRating)
+                HStack(spacing: 4) {
+                    ForEach(0..<maxRating, id: \.self) { index in
+                        let lower = Double(index)
+                        let upper = Double(index + 1)
+                        let symbol = rating >= upper
+                            ? "star.fill"
+                            : (rating >= lower + 0.5
+                                ? "star.lefthalf.fill"
+                                : "star")
+                        Image(systemName: symbol)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: stepWidth - 4, height: stepWidth - 4)
+                    }
+                }
+                .contentShape(Rectangle())
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onEnded { value in
+                            let x = min(max(0, value.location.x), fullWidth)
+                            let raw = Double(x / stepWidth)
+                            let newRating = (raw * 2).rounded() / 2
+                            rating = min(max(newRating, 0), Double(maxRating))
+                        }
+                )
+            }
+            .frame(height: 44)
+        }
+    }
+
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Rating")) {
-                    Slider(value: $rating, in: 0...5, step: 0.5)
-                    HStack {
-                        ForEach(0..<5) { idx in
-                            Image(systemName: idx < Int(rating.rounded()) ? "star.fill" : "star")
-                                .foregroundColor(.yellow)
-                        }
-                        Text(String(format: "%.1f", rating))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
+                    StarRatingView(rating: $rating)
+                    Text(String(format: "%.1f", rating))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
 
                 Section("Tasting Notes") {

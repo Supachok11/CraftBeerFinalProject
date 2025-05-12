@@ -36,13 +36,24 @@ struct MyLogView: View {
                     List {
                         ForEach(vm.logs) { log in
                             logRow(log)
-                                .swipeActions {
-                                    Button(role: .destructive) { vm.delete(log) } label: {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    Button(role: .destructive) {
+                                        vm.delete(log)
+                                    } label: {
                                         Label("Delete", systemImage: "trash")
                                     }
-                                    Button { startEdit(log) } label: {
+
+                                    Button {
+                                        startEdit(log)
+                                    } label: {
                                         Label("Edit", systemImage: "pencil")
-                                    }.tint(.orange)
+                                    }
+                                    .tint(.orange)
+
+                                    ShareLink(item: shareText(for: log)) {
+                                        Label("Share", systemImage: "square.and.arrow.up")
+                                    }
+                                    .tint(.blue)
                                 }
                         }
                     }
@@ -96,6 +107,10 @@ struct MyLogView: View {
         notes  = entry.notes
     }
 
+    private func shareText(for log: BeerLogEntry) -> String {
+        "Check out my beer log for \(log.beerName): \(log.rating) ★ - \(log.notes)"
+    }
+
     @ViewBuilder
     private func logRow(_ log: BeerLogEntry) -> some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -111,5 +126,3 @@ struct MyLogView: View {
         }
     }
 }
-
-

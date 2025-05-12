@@ -19,6 +19,7 @@ struct BeerFilterView: View {
     @State private var selectedBreweries: Set<String> = []
     @State private var abvMin: Double = 0
     @State private var abvMax: Double = 15
+    @State private var selectedSort: String = ""
     
     // Populate with your own beer styles and breweries
     let availableStyles = ["Stout", "Lager", "Pale Ale", "Wheat Ale", "White Ale", "India Pale Ale", "Pilsner", "Fruited Sour", "Herb/Spieced Ale", "Sigle-Hop IPA", "Red IPA", "Imperial Red Ale", "Hefeweizen", "New England IPA", "Sour Pale Ale", "Fruit Beer", "Belgian Witbier", "Golden Ale", "Cream Ale"]
@@ -27,6 +28,15 @@ struct BeerFilterView: View {
     var body: some View {
         NavigationView {
             Form {
+                Section(header: Text("Sort By")) {
+                    Picker("Sort By", selection: $selectedSort) {
+                        Text("Name (A–Z)").tag("nameAsc")
+                        Text("ABV (Low → High)").tag("abvLow")
+                        Text("ABV (High → Low)").tag("abvHigh")
+                    }
+                    .pickerStyle(.menu)
+                }
+                
                 Section(header: Text("Beer Style")) {
                     ForEach(availableStyles, id: \.self) { style in
                         Button(action: {
@@ -84,6 +94,8 @@ struct BeerFilterView: View {
                         selectedBreweries.removeAll()
                         activeFilters["abvMin"] = abvMin
                         activeFilters["abvMax"] = abvMax
+                        selectedSort = ""
+                        activeFilters.removeValue(forKey: "sortBy")
                     }
                 }
             }
@@ -114,6 +126,12 @@ struct BeerFilterView: View {
                         activeFilters["abvMin"] = abvMin
                         activeFilters["abvMax"] = abvMax
                         
+                        if !selectedSort.isEmpty {
+                            activeFilters["sortBy"] = selectedSort
+                        } else {
+                            activeFilters.removeValue(forKey: "sortBy")
+                        }
+                        
                         applyFilters()
                         presentationMode.wrappedValue.dismiss()
                     }
@@ -133,6 +151,12 @@ struct BeerFilterView: View {
                    let max = activeFilters["abvMax"] as? Double {
                     abvMin = min
                     abvMax = max
+                }
+                
+                if let sort = activeFilters["sortBy"] as? String {
+                    selectedSort = sort
+                } else {
+                    selectedSort = ""
                 }
             }
         }

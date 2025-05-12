@@ -61,6 +61,22 @@ class BeerDirectoryViewModel: ObservableObject {
             }
         }
         
+        // Sort results if requested
+        if let sort = activeFilters["sortBy"] as? String {
+            switch sort {
+            case "nameAsc":
+                filteredBeers.sort {
+                    $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+                }
+            case "abvLow":
+                filteredBeers.sort { $0.abv < $1.abv }
+            case "abvHigh":
+                filteredBeers.sort { $0.abv > $1.abv }
+            default:
+                break
+            }
+        }
+        
         self.beers = filteredBeers
     }
 }
