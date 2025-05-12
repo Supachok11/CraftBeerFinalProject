@@ -12,15 +12,20 @@ struct SignInView: View {
     @State private var email        = ""
     @State private var password     = ""
     @State private var error        : String?
+    
+    
     @AppStorage("justLoggedIn") private var justLoggedIn = false
+    
     @State private var isLoading    = false
+    
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
         NavigationStack {
             ZStack {
             // Background gradient
             LinearGradient(
-                colors: [Color("GradientStart"), Color("GradientEnd")],
+                colors: [Color.primaryColor, Color.accentColor],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -28,28 +33,33 @@ struct SignInView: View {
 
             VStack {
                 Spacer()
-                VStack(spacing: 24) {
+                VStack(spacing: 16) {
+                    
+                    Image("AppLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                        .padding(.bottom, 8)
                     
                     // White card container
                     VStack(spacing: 16) {
-                        TextField("Email", text: $email)
-                            .keyboardType(.emailAddress)
-                            .autocapitalization(.none)
-                            .padding()
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(10)
-
-                        SecureField("Password", text: $password)
-                            .padding()
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(10)
+                        IconTextField(systemIcon: "envelope",
+                                      placeholder: "Email",
+                                      text: $email,
+                                      keyboard: .emailAddress,
+                                      isSecure: false)
+                        IconTextField(systemIcon: "lock",
+                                      placeholder: "Password",
+                                      text: $password,
+                                      keyboard: .default,
+                                      isSecure: true)
 
                         // Forgot password link
                         HStack {
                             Spacer()
                             NavigationLink("Forgot Password?", destination: PasswordResetView())
                                 .font(.footnote)
-                                .foregroundColor(.blue)
+                                .foregroundColor(.accentColor)
                         }
 
                         // Sign In button
@@ -63,37 +73,51 @@ struct SignInView: View {
                             } else {
                                 Text("SIGN\u{202F}IN")
                                     .font(.headline)
+                                    .kerning(1)
                                     .foregroundColor(.white)
                                     .frame(maxWidth: .infinity)
                             }
                         }
                         .disabled(isLoading || email.isEmpty || password.isEmpty)
                         .padding()
-                        .background((isLoading || email.isEmpty || password.isEmpty) ? Color.gray : Color.blue)
+                        .background(Color.primaryColor.opacity(isLoading || email.isEmpty || password.isEmpty ? 0.5 : 1.0))
+                        .foregroundColor(.white)
                         .cornerRadius(10)
+                        .opacity(isLoading || email.isEmpty || password.isEmpty ? 0.6 : 1.0)
 
                         // Error message
                         if let error {
-                            Text(error)
-                                .foregroundColor(.red)
+                            Text("Invalid email or password")
                                 .font(.caption)
+                                .foregroundColor(.errorColor)
                                 .multilineTextAlignment(.center)
-                                .padding(.top, 4)
                         }
                     }
                     .padding()
-                    .background(Color.white)
+                    .background(Color.surfaceColor)
                     .cornerRadius(30)
+                    .shadow(color: Color.textPrimary.opacity(0.05),
+                            radius: 10, x: 0, y: 5)
                     .padding(.horizontal, 24)
 
                     // Sign Up navigation
                     HStack {
                         Text("Don't have an account?")
                             .foregroundColor(.white)
-                        NavigationLink("Sign\u{202F}Up", destination: SignUpView())
-                            .foregroundColor(.blue)
+                        NavigationLink("Sign Up", destination: SignUpView())
+                            .foregroundColor(.primaryColor)
                             .bold()
                     }
+                    
+                    // For Debuggin OnBoardingView
+//                    Button("Show Onboarding") {
+//                        hasSeenOnboarding = false
+//                    }
+//                    .font(.footnote)
+//                    .foregroundColor(.red)
+//                    .padding(.top,8)
+//
+//                    Spacer()
                 }
                 Spacer()
             }
@@ -132,7 +156,7 @@ private struct IconTextField: View {
     var body: some View {
         HStack {
             Image(systemName: systemIcon)
-                .foregroundColor(.secondary)
+                .foregroundColor(.accentColor)
             if isSecure {
                 SecureField(placeholder, text: $text)
                     .autocapitalization(.none)
@@ -144,7 +168,7 @@ private struct IconTextField: View {
         }
         .padding(.vertical, 12)
         .padding(.horizontal, 16)
-        .background(Color.white.opacity(0.6))
+        .background(Color.surfaceColor.opacity(0.5))
         .cornerRadius(8)
     }
 }

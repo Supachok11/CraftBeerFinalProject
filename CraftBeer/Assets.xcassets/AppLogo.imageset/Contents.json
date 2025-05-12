@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "IMG20201202132818.jpeg",
+      "filename" : "logo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "IMG20201202132818 1.jpeg",
+      "filename" : "logo 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "IMG20201202132818 2.jpeg",
+      "filename" : "logo 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

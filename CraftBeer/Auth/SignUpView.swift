@@ -23,87 +23,82 @@ struct SignUpView: View {
             ZStack {
                 // Background gradient
                 LinearGradient(
-                    colors: [Color("GradientStart"), Color("GradientEnd")],
+                    colors: [Color.primaryColor, Color.accentColor],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
 
-                VStack(spacing: 32) {
-                    // App logo
-                    Image("AppLogo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100)
-                        .padding(.top, 40)
-
-                    Text("Create Account")
-                        .font(.largeTitle.bold())
-                        .foregroundColor(.white)
-
-                    // Input card
+                VStack {
+                    Spacer()
                     VStack(spacing: 16) {
-                        IconTextField(
-                            systemIcon: "envelope",
-                            placeholder: "Email",
-                            text: $email,
-                            keyboard: .emailAddress,
-                            isSecure: false
-                        )
-                        IconTextField(
-                            systemIcon: "lock",
-                            placeholder: "Password (6+ chars)",
-                            text: $password,
-                            keyboard: .default,
-                            isSecure: true
-                        )
-                        IconTextField(
-                            systemIcon: "lock.rotation",
-                            placeholder: "Confirm Password",
-                            text: $confirm,
-                            keyboard: .default,
-                            isSecure: true
-                        )
-                    }
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 24)
+                        
+                        Image("AppLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .padding(.bottom, 8)
 
-                    // Error message
-                    if let errorMsg {
-                        Text(errorMsg)
-                            .foregroundColor(.red)
-                            .font(.caption)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 24)
-                    }
+                        Text("Create Account")
+                            .font(.largeTitle.bold())
+                            .foregroundColor(.white)
 
-                    // Sign Up button
-                    Button {
-                        signUp()
-                    } label: {
-                        if isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                .frame(maxWidth: .infinity)
-                        } else {
-                            Text("Sign Up")
-                                .font(.headline)
-                                .frame(maxWidth: .infinity)
+                        VStack(spacing: 16) {
+                            IconTextField(
+                                systemIcon: "envelope",
+                                placeholder: "Email",
+                                text: $email,
+                                keyboard: .emailAddress,
+                                isSecure: false
+                            )
+                            IconTextField(
+                                systemIcon: "lock",
+                                placeholder: "Password (6+ chars)",
+                                text: $password,
+                                keyboard: .default,
+                                isSecure: true
+                            )
+                            IconTextField(
+                                systemIcon: "lock.rotation",
+                                placeholder: "Confirm Password",
+                                text: $confirm,
+                                keyboard: .default,
+                                isSecure: true
+                            )
+
+                            if let errorMsg {
+                                Text(errorMsg)
+                                    .foregroundColor(.red)
+                                    .font(.caption)
+                                    .multilineTextAlignment(.center)
+                            }
+
+                            Button {
+                                signUp()
+                            } label: {
+                                if isLoading {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .frame(maxWidth: .infinity)
+                                } else {
+                                    Text("SIGN UP")
+                                        .font(.headline)
+                                        .kerning(1)
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity)
+                                }
+                            }
+                            .padding()
+                            .background(Color.primaryColor.opacity((isLoading || email.isEmpty || password.count < 6 || password != confirm) ? 0.5 : 1))
+                            .cornerRadius(10)
+                            .opacity((isLoading || email.isEmpty || password.count < 6 || password != confirm) ? 0.6 : 1)
                         }
+                        .padding()
+                        .background(Color.surfaceColor)
+                        .cornerRadius(30)
+                        .shadow(color: Color.textPrimary.opacity(0.05), radius: 10, x: 0, y: 5)
+                        .padding(.horizontal, 24)
                     }
-                    .disabled(isLoading || email.isEmpty || password.count < 6 || password != confirm)
-                    .padding()
-                    .background(
-                        (isLoading || email.isEmpty || password.count < 6 || password != confirm)
-                        ? Color.gray
-                        : Color.accentColor
-                    )
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-                    .padding(.horizontal, 24)
-
                     Spacer()
                 }
             }

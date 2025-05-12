@@ -1,5 +1,5 @@
 //
-//  OnBoardingView.swift
+//  OnboardingView.swift
 //  CraftBeer
 //
 //  Created by Supachok Chatupamai on 13/5/2568 BE.
@@ -7,9 +7,72 @@
 
 import SwiftUI
 
-/// Onboarding screen guiding users through key features before sign-in.
+/// A single page of the onboarding flow.
+struct OnboardingPageView: View {
+    let page: OnboardingView.Page
+    @Binding var selection: Int
+    let totalPages: Int
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Spacer()
+
+            Image(systemName: page.image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 150, height: 150)
+                .foregroundColor(.primaryColor)
+
+            Text(page.title)
+                .font(.title.bold())
+                .foregroundColor(.white)
+
+            Text(page.text)
+                .font(.body)
+                .foregroundColor(.white.opacity(0.8))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 30)
+
+            Spacer()
+
+            if page.id == totalPages - 1 {
+                // Last page: Get Started
+                NavigationLink(destination: SignInView()
+                                .navigationBarBackButtonHidden(true)) {
+                    Text("Get Started")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.primaryColor)
+                        .cornerRadius(10)
+                        .padding(.horizontal, 40)
+                }
+            } else {
+                // Intermediate pages: Next button
+                Button {
+                    withAnimation {
+                        selection += 1
+                    }
+                } label: {
+                    Text("Next")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.primaryColor.opacity(0.8))
+                        .cornerRadius(10)
+                        .padding(.horizontal, 40)
+                }
+            }
+
+            Spacer()
+        }
+    }
+}
+
 struct OnboardingView: View {
-    private struct Page: Identifiable {
+    struct Page: Identifiable {
         let id: Int
         let title: String
         let text: String
@@ -40,76 +103,29 @@ struct OnboardingView: View {
     var body: some View {
         NavigationStack {
             ZStack {
+                // Background gradient
                 LinearGradient(
-                    colors: [Color("GradientStart"), Color("GradientEnd")],
+                    colors: [Color.primaryColor, Color.accentColor],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
 
+                // Paging tabs
                 TabView(selection: $selection) {
                     ForEach(pages) { page in
-                        VStack(spacing: 20) {
-                            Spacer()
-                            Image(systemName: page.image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 150, height: 150)
-                                .foregroundColor(Color("PrimaryColor"))
-                            Text(page.title)
-                                .font(.title.bold())
-                                .foregroundColor(.white)
-                            Text(page.text)
-                                .font(.body)
-                                .foregroundColor(.white.opacity(0.8))
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal, 30)
-                            Spacer()
-
-                            if page.id == pages.count - 1 {
-                                NavigationLink(destination: SignInView()
-                                                .navigationBarBackButtonHidden(true)) {
-                                    Text("Get Started")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .padding()
-                                        .background(Color("PrimaryColor"))
-                                        .cornerRadius(10)
-                                        .padding(.horizontal, 40)
-                                }
-                            } else {
-                                Button(action: {
-                                    withAnimation {
-                                        selection += 1
-                                    }
-                                }) {
-                                    Text("Next")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .padding()
-                                        .background(Color("PrimaryColor").opacity(0.8))
-                                        .cornerRadius(10)
-                                        .padding(.horizontal, 40)
-                                }
-                            }
-
-                            Spacer()
-                        }
+                        OnboardingPageView(
+                            page: page,
+                            selection: $selection,
+                            totalPages: pages.count
+                        )
                         .tag(page.id)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             }
-            .accentColor(Color("PrimaryColor"))
+            .accentColor(.primaryColor)
             .navigationBarHidden(true)
         }
-    }
-}
-
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView()
     }
 }
