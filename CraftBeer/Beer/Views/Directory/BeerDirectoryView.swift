@@ -106,17 +106,19 @@ struct BeerDirectoryView: View {
                 .padding(.top, 16)
                 .padding(.horizontal)
             }
-            .background(Color("BackgroundColor").edgesIgnoringSafeArea(.all))
+            .background(Color.backgroundColor.ignoresSafeArea())
             .navigationTitle("Thai Craft Beers")
             .searchable(text: $searchText, prompt: "Search beers or breweries")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: { isFilterSheetPresented = true }) {
                         Image(systemName: "line.3.horizontal.decrease.circle")
+                            .foregroundColor(.accentColor)
                     }
                 }
             }
         }
+        .accentColor(.primaryColor)
         .sheet(isPresented: $isFilterSheetPresented) {
             BeerFilterView(activeFilters: $viewModel.activeFilters, applyFilters: viewModel.applyFilters)
         }

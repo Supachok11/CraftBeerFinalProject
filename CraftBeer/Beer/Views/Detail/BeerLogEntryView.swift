@@ -67,24 +67,34 @@ struct BeerLogEntryView: View {
                     StarRatingView(rating: $rating)
                     Text(String(format: "%.1f", rating))
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.textSecondary)
                 }
 
                 Section("Tasting Notes") {
                     TextEditor(text: $notes)
                         .frame(minHeight: 120)
+                        .padding(4)
+                        .background(Color.surfaceColor)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.primaryColor, lineWidth: 1)
+                        )
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.surfaceColor)
             .navigationTitle("Log This Beer")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel", role: .cancel) { isPresented = false }
+                        .foregroundColor(.primaryColor)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if saving {
                         ProgressView()
                     } else {
                         Button("Save") { saveEntry() }
+                            .foregroundColor(.primaryColor)
                     }
                 }
             }
@@ -94,6 +104,7 @@ struct BeerLogEntryView: View {
                 Text(errorMsg ?? "")
             })
         }
+        .accentColor(.primaryColor)
     }
 
     // MARK: – Firestore write

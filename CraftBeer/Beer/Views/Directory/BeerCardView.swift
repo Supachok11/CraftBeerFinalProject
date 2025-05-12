@@ -46,22 +46,22 @@ struct BeerCardView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(beer.name)
                     .font(.headline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.textPrimary)
                 
                 Text(beer.style)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.textSecondary)
                 
                 Text(beer.brewery)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.textSecondary)
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 10)
         }
-        .background(Color("CardBackground"))
+        .background(Color.surfaceColor)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
         .frame(maxWidth: .infinity)

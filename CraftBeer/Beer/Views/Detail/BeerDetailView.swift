@@ -42,6 +42,7 @@ struct BeerDetailView: View {
                     Text(beer.name)
                         .font(.largeTitle)
                         .fontWeight(.bold)
+                        .foregroundColor(Color.textPrimary)
                     
                     HStack {
                         Label("\(beer.style)", systemImage: "tag")
@@ -52,7 +53,7 @@ struct BeerDetailView: View {
                         Label("\(String(format: "%.1f", beer.abv))% ABV", systemImage: "drop")
                             .font(.headline)
                     }
-                    .foregroundColor(.secondary)
+                    .foregroundColor(Color.textSecondary)
                     
                     Divider()
                     
@@ -65,18 +66,18 @@ struct BeerDetailView: View {
                     
                     Text("Brewery: \(beer.brewery)")
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Color.textSecondary)
                     
                     if let ibu = beer.ibu {
                         Text("IBU: \(ibu)")
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Color.textSecondary)
                     }
                     
                     if let releaseYear = beer.releaseYear {
                         Text("First Released: \(releaseYear)")
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Color.textSecondary)
                     }
                     
                     // Actions
@@ -91,7 +92,7 @@ struct BeerDetailView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.blue)
+                                .background(Color.primaryColor)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                             }
@@ -107,17 +108,17 @@ struct BeerDetailView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(viewModel.isFavorite ? Color.green : Color.gray.opacity(0.2))
-                                .foregroundColor(viewModel.isFavorite ? .white : .primary)
+                                .background(viewModel.isFavorite ? Color.accentColor : Color.surfaceColor)
+                                .foregroundColor(viewModel.isFavorite ? .white : Color.textPrimary)
                                 .cornerRadius(10)
                             }
                         } else {
                             Text("Log in to save this beer to your collection!")
                                 .font(.callout)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Color.textSecondary)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.gray.opacity(0.1))
+                                .background(Color.surfaceColor)
                                 .cornerRadius(10)
                         }
                     }
