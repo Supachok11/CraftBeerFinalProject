@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import Firebase
 import Kingfisher
+import Firebase
 
 struct BeerCardView: View {
     let beer: Beer
@@ -16,42 +16,33 @@ struct BeerCardView: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .topTrailing) {
                 KFImage(URL(string: beer.image))
-                    .placeholder {
-                        Rectangle()
-                            .foregroundColor(.gray.opacity(0.3))
-                            .overlay(
-                                Image(systemName: "photo")
-                                    .font(.largeTitle)
-                                    .foregroundColor(.gray)
-                            )
-                    }
                     .resizable()
+//                    .scaledToFill()
                     .frame(maxWidth: .infinity)
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 200)
                     .clipped()
                     .cornerRadius(10)
-                
-                Text("\(String(format: "%.1f", beer.abv))% ABV")
-                    .font(.caption)
+
+                // ABV badge
+                Text(String(format: "%.1f%% ABV", beer.abv))
+                    .font(.caption2)
                     .fontWeight(.bold)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.black.opacity(0.7))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.primaryColor)
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .cornerRadius(4)
                     .padding(8)
             }
-            
             VStack(alignment: .leading, spacing: 4) {
                 Text(beer.name)
                     .font(.headline)
                     .foregroundColor(.textPrimary)
-                
+                    .padding(.top, 8)
                 Text(beer.style)
                     .font(.subheadline)
                     .foregroundColor(.textSecondary)
-                
                 Text(beer.brewery)
                     .font(.caption)
                     .foregroundColor(.textSecondary)
@@ -63,8 +54,7 @@ struct BeerCardView: View {
         }
         .background(Color.surfaceColor)
         .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+        .shadow(color: Color.textPrimary.opacity(0.1), radius: 4, x: 0, y: 2)
         .frame(maxWidth: .infinity)
-        .frame(height: 300)
     }
 }

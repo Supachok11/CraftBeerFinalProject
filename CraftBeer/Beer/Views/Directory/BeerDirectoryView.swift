@@ -11,6 +11,7 @@ import Kingfisher
 import FirebaseAuth
 import FirebaseFirestore
 import Foundation
+import WaterfallGrid
 
 struct BeerDirectoryView: View {
     @StateObject private var viewModel = BeerDirectoryViewModel()
@@ -64,9 +65,9 @@ struct BeerDirectoryView: View {
                                 .buttonStyle(PlainButtonStyle())
                             }
                         }
-                        .padding(.leading)
                     }
                 }
+                .padding(.horizontal)
             }
         }
     }
@@ -85,26 +86,25 @@ struct BeerDirectoryView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 24) {
-                    // MARK: – Recommended for you
-                    if !recommendedBeers.isEmpty {
-                        recommendationSection
-                            .padding(.bottom, 16)
-                    }
-
-                    // MARK: – Beer list
-                    LazyVStack(spacing: 16) {
-                        ForEach(filteredBeers) { beer in
-                            NavigationLink(destination: BeerDetailView(beer: beer)) {
-                                BeerCardView(beer: beer)
-                                    .frame(maxWidth: .infinity, minHeight: 300)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                    }
+                // MARK: – Recommended for you (unchanged)
+                if !recommendedBeers.isEmpty {
+                    recommendationSection
+                        .padding(.bottom, 16)
                 }
-                .padding(.top, 16)
-                .padding(.horizontal)
+
+                // MARK: – Masonry grid of beers
+                WaterfallGrid(filteredBeers) { beer in
+                    NavigationLink(destination: BeerDetailView(beer: beer)) {
+                        BeerCardView(beer: beer)
+                            .frame(width: 190) // fixed card width
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .gridStyle(
+                    columns: 2,
+                    spacing: 12,
+                    animation: .default
+                )
             }
             .background(Color.backgroundColor.ignoresSafeArea())
             .navigationTitle("Thai Craft Beers")
