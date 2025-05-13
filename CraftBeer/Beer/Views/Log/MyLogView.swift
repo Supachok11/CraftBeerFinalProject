@@ -18,7 +18,7 @@ struct MyLogView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("ColorBackgroundou").ignoresSafeArea()
+                Color("ColorBackground").ignoresSafeArea()
 
                 // ───────── EMPTY / LOADING / LIST STATES ─────────
                 if vm.isLoading {

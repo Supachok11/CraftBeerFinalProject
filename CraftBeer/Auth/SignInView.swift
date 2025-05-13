@@ -110,14 +110,14 @@ struct SignInView: View {
                     }
                     
                     // For Debuggin OnBoardingView
-//                    Button("Show Onboarding") {
-//                        hasSeenOnboarding = false
-//                    }
-//                    .font(.footnote)
-//                    .foregroundColor(.red)
-//                    .padding(.top,8)
-//
-//                    Spacer()
+                    Button("Show Onboarding") {
+                        hasSeenOnboarding = false
+                    }
+                    .font(.footnote)
+                    .foregroundColor(.red)
+                    .padding(.top,8)
+
+                    Spacer()
                 }
                 Spacer()
             }

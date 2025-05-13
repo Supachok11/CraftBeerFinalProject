@@ -56,4 +56,6 @@ struct BarLocation: Identifiable {
     let id   = UUID()
     let name: String
     let coordinate: CLLocationCoordinate2D
+    let address: String
+    let hours: [String]
 }

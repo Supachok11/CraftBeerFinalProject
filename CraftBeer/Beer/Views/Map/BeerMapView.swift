@@ -7,19 +7,139 @@
 
 import SwiftUI
 import MapKit
+import UIKit
+
+/// ObservableObject to request and publish the user’s current location.
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var location: CLLocationCoordinate2D?
+    private let manager = CLLocationManager()
+
+    override init() {
+        super.init()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let loc = locations.last else { return }
+        DispatchQueue.main.async {
+            self.location = loc.coordinate
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        // Handle errors if needed
+        print("Location error:", error)
+    }
+}
+
+/// Opens Apple Maps or Google Maps with driving directions to the given coordinate.
+private func openExternalMaps(for bar: BarLocation) {
+    let lat = bar.coordinate.latitude
+    let lon = bar.coordinate.longitude
+    // Try Google Maps first
+    if let url = URL(string: "comgooglemaps://?daddr=\(lat),\(lon)&directionsmode=driving"),
+       UIApplication.shared.canOpenURL(url) {
+        UIApplication.shared.open(url)
+    } else if let appleURL = URL(string: "http://maps.apple.com/?daddr=\(lat),\(lon)&dirflg=d") {
+        UIApplication.shared.open(appleURL)
+    }
+}
 
 struct BeerMapView: View {
 
     // 1️⃣ hard-coded bar list — add / edit as you like
     private let bars: [BarLocation] = [
-        BarLocation(name: "Mikkeller Bangkok",
-                    coordinate: .init(latitude: 13.772827, longitude: 100.590195)),
-        BarLocation(name: "Tawandang German Brewery",
-                    coordinate: .init(latitude: 13.723993, longitude: 100.587460)),
-        BarLocation(name: "Taopiphop Bar Project",
-                    coordinate: .init(latitude: 13.763625, longitude: 100.493213)),
-        BarLocation(name: "Outlaw Brewing Chiang Mai Taproom",
-                    coordinate: .init(latitude: 18.787691, longitude: 98.993262))
+        BarLocation(
+            name: "Beer Belly",
+            coordinate: CLLocationCoordinate2D(latitude: 13.734768, longitude: 100.583120),
+            address: "72 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110",
+            hours: [
+                "วันอาทิตย์ - วันอังคาร 18:00–0:00",
+                "วันพฤหัสบดี - วันเสาร์ 18:00–3:00"
+            ]
+        ),
+        BarLocation(
+            name: "Belga Rooftop Bar & Brasserie",
+            coordinate: CLLocationCoordinate2D(latitude: 13.739273, longitude: 100.557775),
+            address: "189 ถ. สุขุมวิท แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพมหานคร 10110",
+            hours: [
+                "ทุกวัน 17:00–1:00"
+            ]
+        ),
+        BarLocation(
+            name: "Brewski",
+            coordinate: CLLocationCoordinate2D(latitude: 13.735290, longitude: 100.564098),
+            address: "Radisson Blu Plaza Bangkok, 489 ถนนสุขุมวิท แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพมหานคร 10110",
+            hours: [
+                "ทุกวัน 17:00–2:00"
+            ]
+        ),
+        BarLocation(
+            name: "Save Our Souls Craft Beer",
+            coordinate: CLLocationCoordinate2D(latitude: 13.724691, longitude: 100.508992),
+            address: "ถ. เจริญนคร แขวงคลองต้นไทร คลองสาน กรุงเทพมหานคร 10600",
+            hours: [
+                "วันจันทร์ - วันศุกร์ 16:00–23:00",
+                "วันเสาร์ - วันอาทิตย์ 12:00–23:00"
+            ]
+        ),
+        BarLocation(
+            name: "ไท่ซุนบาร์ (Tai Soon Bar)",
+            coordinate: CLLocationCoordinate2D(latitude: 13.752512, longitude: 100.504524),
+            address: "190 ถ. มหาไชย แขวงสำราญราษฎร์ เขตพระนคร กรุงเทพมหานคร 10200",
+            hours: [
+                "วันอังคาร - วันอาทิตย์ 18:00–1:00",
+                "ปิดวันจันทร์"
+            ]
+        ),
+        BarLocation(
+            name: "Bottle Rocket",
+            coordinate: CLLocationCoordinate2D(latitude: 13.730200, longitude: 100.534065),
+            address: "942, 26 ถ. พระรามที่ 4 แขวงสุริยวงศ์ เขตบางรัก กรุงเทพมหานคร 10500",
+            hours: [
+                "วันจันทร์ - วันเสาร์ 18:00–2:00",
+                "ปิดวันอาทิตย์"
+            ]
+        ),
+        BarLocation(
+            name: "โรงเบียร์สหประชาชื่น",
+            coordinate: CLLocationCoordinate2D(latitude: 13.833508, longitude: 100.550844),
+            address: "109 เทศบาลนิมิตใต้ ซอย 1 แขวงลาดยาว เขตจตุจักร กรุงเทพมหานคร 10900",
+            hours: [
+                "ทุกวัน 11:00–23:00"
+            ]
+        ),
+        BarLocation(
+            name: "Highland Café",
+            coordinate: CLLocationCoordinate2D(latitude: 13.812985, longitude: 100.560576),
+            address: "12 7 ถ. ลาดพร้าว แขวงจอมพล เขตจตุจักร กรุงเทพมหานคร 10900",
+            hours: [
+                "วันจันทร์ - วันศุกร์ 7:00–18:00",
+                "วันเสาร์ 8:00–17:00",
+                "ปิดวันอาทิตย์"
+            ]
+        ),
+        BarLocation(
+            name: "Yolo Craft Beer Bar",
+            coordinate: CLLocationCoordinate2D(latitude: 13.763615, longitude: 100.495655),
+            address: "140 ถนน พระสุเมรุ แขวงชนะสงคราม เขตพระนคร กรุงเทพมหานคร 10200 ",
+            hours: [
+                "ทุกวัน 17:00–1:00"
+            ]
+        ),
+        BarLocation(
+            name: "Beerable",
+            coordinate: CLLocationCoordinate2D(latitude: 13.778660, longitude: 100.576763),
+            address: "251 ถ. ประชาราษฎร์บำเพ็ญ แขวงห้วยขวาง เขตห้วยขวาง กรุงเทพมหานคร 10310",
+            hours: [
+                "วันจันทร์ - วันศุกร์ 17:00–1:00",
+                "วันเสาร์ - วันอาทิตย์ 15:00–1:00"
+            ]
+        ),
+        
     ]
 
     // 2️⃣ map region — starts centered on Thailand
@@ -28,14 +148,138 @@ struct BeerMapView: View {
         span: MKCoordinateSpan(latitudeDelta: 8, longitudeDelta: 8)
     )
 
+    @State private var trackingMode: MapUserTrackingMode = .none
+
+    @StateObject private var locationManager = LocationManager()
+    @State private var selectedBar: BarLocation? = nil
+
     var body: some View {
         NavigationStack {
-            Map(coordinateRegion: $region, annotationItems: bars) { bar in
-                MapMarker(coordinate: bar.coordinate, tint: .blue)
+            ZStack {
+                // 1️⃣ Map with user tracking
+                Map(
+                    coordinateRegion: $region,
+                    showsUserLocation: true,
+                    userTrackingMode: $trackingMode,
+                    annotationItems: bars
+                ) { bar in
+                    MapAnnotation(coordinate: bar.coordinate) {
+                        VStack(spacing: 4) {
+                            // 1️⃣ Show callout bubble when this bar is selected
+                            if selectedBar?.id == bar.id {
+                                VStack(spacing: 4) {
+                                    Text(bar.name)
+                                        .font(.caption)
+                                        .foregroundColor(.white)
+                                    // you can add Image(uiImage:) or more details here if desired
+                                }
+                                .padding(8)
+                                .background(Color.primaryColor)
+                                .cornerRadius(8)
+                                .onTapGesture {
+                                    // Open external maps when tapping the bubble
+                                    openExternalMaps(for: bar)
+                                }
+                            }
+
+                            // 2️⃣ Pin icon toggles selection
+                            Image(systemName: "mappin.circle.fill")
+                                .font(.system(size: 36))
+                                .foregroundColor(Color.primaryColor)
+                                .onTapGesture {
+                                    // Toggle this bar as the selected one
+                                    if selectedBar?.id == bar.id {
+                                        selectedBar = nil
+                                    } else {
+                                        selectedBar = bar
+                                    }
+                                }
+                        }
+                    }
+                }
+                
+                // 2️⃣ Locate Me Button
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button {
+                            // center map on user location
+                            if let userLoc = locationManager.location {
+                                region.center = userLoc
+                                trackingMode = .follow
+                            }
+                        } label: {
+                            Image(systemName: "location.fill")
+                                .font(.title2)
+                                .padding()
+                                .background(Color.surfaceColor)
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                        }
+                        .padding()
+                    }
+                }
+            }
+            .sheet(item: $selectedBar) { bar in
+                BarDetailSheet(bar: bar)
+            }
+            .onReceive(locationManager.$location.compactMap { $0 }) { loc in
+                // update map region to the user’s location on first fetch
+                region.center = loc
             }
             .ignoresSafeArea(edges: .top)
             .navigationTitle("Craft-Beer Bars")
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+}
+
+struct BarDetailSheet: View {
+    let bar: BarLocation
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(bar.name)
+                .font(.title2.bold())
+
+            Text(bar.address)
+                .font(.subheadline)
+                .foregroundColor(.textSecondary)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+                .multilineTextAlignment(.leading)
+
+            Divider()
+
+            Text("Hours")
+                .font(.headline)
+
+            ForEach(bar.hours, id: \.self) { line in
+                Text(line)
+                    .font(.body)
+            }
+            
+            Divider()
+            
+            Button(action: {
+                openExternalMaps(for: bar)
+            }) {
+                HStack {
+                    Image(systemName: "map.fill")
+                    Text("Get Directions")
+                        .font(.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.primaryColor)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+            }
+
+            Spacer()
+        }
+        .padding()
+        .presentationDetents([.height(375)])
     }
 }
