@@ -35,14 +35,23 @@ struct SignInView: View {
                 Spacer()
                 VStack(spacing: 16) {
                     
-                    Image("AppLogo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                        .padding(.bottom, 8)
-                    
                     // White card container
                     VStack(spacing: 16) {
+                        Image("AppLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            .padding(12)
+                            .background(
+                                Circle().fill(Color.primaryColor)
+                            )
+                            .overlay(
+                                Circle().stroke(Color.surfaceColor, lineWidth: 2)
+                            )
+                            .clipShape(Circle())
+                            .shadow(color: Color.primaryColor.opacity(0.2), radius: 5, x: 0, y: 2)
+                            .padding(.top, 16)
+                        Divider()
                         IconTextField(systemIcon: "envelope",
                                       placeholder: "Email",
                                       text: $email,
@@ -108,16 +117,6 @@ struct SignInView: View {
                             .foregroundColor(.primaryColor)
                             .bold()
                     }
-                    
-                    // For Debuggin OnBoardingView
-                    Button("Show Onboarding") {
-                        hasSeenOnboarding = false
-                    }
-                    .font(.footnote)
-                    .foregroundColor(.red)
-                    .padding(.top,8)
-
-                    Spacer()
                 }
                 Spacer()
             }

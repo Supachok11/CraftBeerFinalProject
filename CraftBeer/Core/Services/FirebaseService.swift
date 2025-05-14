@@ -18,7 +18,10 @@ final class FirebaseService {
     /// Reads every document from the `beers` collection and decodes them as `Beer`.
     func fetchBeers(completion: @escaping (_ beers: [Beer]?, _ error: Error?) -> Void) {
         db.collection("beers").getDocuments { snapshot, error in
-            if let error { completion(nil, error); return }
+            if let error {
+                completion(nil, error);
+                return
+            }
 
             let beers = snapshot?.documents.compactMap { doc -> Beer? in
                 try? doc.data(as: Beer.self)

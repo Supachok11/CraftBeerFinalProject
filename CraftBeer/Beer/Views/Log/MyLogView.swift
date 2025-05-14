@@ -18,7 +18,7 @@ struct MyLogView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("ColorBackground").ignoresSafeArea()
+                Color.backgroundColor.ignoresSafeArea()
 
                 // ───────── EMPTY / LOADING / LIST STATES ─────────
                 if vm.isLoading {
@@ -37,6 +37,8 @@ struct MyLogView: View {
                     List {
                         ForEach(vm.logs) { log in
                             logRow(log)
+                                .listRowBackground(Color.surfaceColor)
+                                .listRowSeparator(.hidden)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     Button(role: .destructive) {
                                         vm.delete(log)
@@ -59,6 +61,7 @@ struct MyLogView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
+                    .listStyle(.insetGrouped)
                 }
             }
             .navigationTitle("My Beer Log")

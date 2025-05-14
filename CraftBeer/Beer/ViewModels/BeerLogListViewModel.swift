@@ -18,7 +18,9 @@ final class BeerLogListViewModel: ObservableObject {
     private var listener: ListenerRegistration?
 
     func start() {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
             isLoading = true                         // start spinner
 
             listener = Firestore.firestore()
@@ -37,18 +39,26 @@ final class BeerLogListViewModel: ObservableObject {
                 }
         }
     
-    func stop() { listener?.remove(); listener = nil }
+    func stop() {
+        listener?.remove(); listener = nil
+    }
 
     // delete
     func delete(_ entry: BeerLogEntry) {
-        guard let id = entry.id else { return }
+        guard let id = entry.id else {
+            return
+        }
         Firestore.firestore().collection("userLogs").document(id).delete { [weak self] err in
-            if let err { self?.error = .init(message: err.localizedDescription) }
+            if let err {
+                self?.error = .init(message: err.localizedDescription)
+            }
         }
     }
     // update
     func update(entry: BeerLogEntry, rating: Double, notes: String) {
-        guard let id = entry.id else { return }
+        guard let id = entry.id else {
+            return
+        }
         Firestore.firestore().collection("userLogs").document(id).updateData([
             "rating": rating,
             "notes":  notes,

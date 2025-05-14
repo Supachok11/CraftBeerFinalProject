@@ -96,7 +96,7 @@ struct BeerDirectoryView: View {
                 WaterfallGrid(filteredBeers) { beer in
                     NavigationLink(destination: BeerDetailView(beer: beer)) {
                         BeerCardView(beer: beer)
-                            .frame(width: 190) // fixed card width
+                            .frame(width: 200) // reduced card width
                     }
                     .buttonStyle(PlainButtonStyle())
                 }

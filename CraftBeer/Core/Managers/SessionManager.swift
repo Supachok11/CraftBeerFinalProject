@@ -21,5 +21,10 @@ final class SessionManager: ObservableObject {
         }
     }
 
-    deinit { if let h = handle { Auth.auth().removeStateDidChangeListener(h) } }
+    deinit {
+        if let h = handle
+        {
+        Auth.auth().removeStateDidChangeListener(h)
+    }
+    }
 }

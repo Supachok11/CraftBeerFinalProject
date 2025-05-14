@@ -27,50 +27,101 @@ struct PasswordResetView: View {
     @State private var isLoading = false
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Reset Password")
-                .font(.title.bold())
+        NavigationStack {
+            ZStack {
+                // Background gradient
+                LinearGradient(
+                    colors: [Color.primaryColor, Color.accentColor],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
 
-            Text("Enter your email to receive a password reset link.")
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+                VStack {
+                    Spacer()
 
-            TextField("Email", text: $email)
-                .keyboardType(.emailAddress)
-                .autocapitalization(.none)
-                .padding()
-                .background(Color("BackgroundColor").opacity(0.1))
-                .cornerRadius(8)
-                .padding(.horizontal)
+                    // Card container
+                    VStack(spacing: 16) {
+                        Text("Reset Password")
+                            .font(.title2.bold())
+                            .foregroundColor(.textPrimary)
 
-            Button {
-                sendReset()
-            } label: {
-                if isLoading {
-                    ProgressView()
-                } else {
-                    Text("Send Reset Email")
-                        .font(.headline)
+                        Text("Enter your email to receive a password reset link.")
+                            .font(.body)
+                            .foregroundColor(.textSecondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 16)
+
+                        // Email field
+                        IconTextField(
+                            systemIcon: "envelope",
+                            placeholder: "Email",
+                            text: $email,
+                            keyboard: .emailAddress,
+                            isSecure: false
+                        )
+
+                        // Send button
+                        Button {
+                            sendReset()
+                        } label: {
+                            if isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .frame(maxWidth: .infinity)
+                            } else {
+                                Text("Send Reset Email")
+                                    .font(.headline)
+                                    .kerning(1)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                            }
+                        }
+                        .disabled(email.isEmpty || isLoading)
+                        .padding()
+                        .background(Color.primaryColor.opacity((email.isEmpty || isLoading) ? 0.5 : 1))
+                        .cornerRadius(10)
+                        .opacity((email.isEmpty || isLoading) ? 0.6 : 1)
+
+                        // Error message
+                        if let message {
+                            Text(message)
+                                .font(.caption)
+                                .foregroundColor(.errorColor)
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 4)
+                        }
+                    }
+                    .padding()
+                    .background(Color.surfaceColor)
+                    .cornerRadius(30)
+                    .shadow(color: Color.textPrimary.opacity(0.05), radius: 10, x: 0, y: 5)
+                    .padding(.horizontal, 24)
+
+                    // Back to sign in link
+                    HStack {
+                        Text("Remember your password?")
+                            .foregroundColor(.white)
+                        Button("Sign In") {
+                            dismiss()
+                        }
+                        .foregroundColor(.primaryColor)
+                        .bold()
+                    }
+                    .padding(.top, 12)
+
+                    Spacer()
                 }
             }
-            .disabled(email.isEmpty || isLoading)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background((email.isEmpty || isLoading) ? Color.gray : Color.accentColor)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-            .padding(.horizontal)
-
-            Spacer()
-        }
-        .padding(.top)
-        .alert(message ?? "", isPresented: $showAlert) {
-            Button("OK", role: .cancel) {
-                if message == "Password reset email sent. Check your inbox." {
-                    dismiss()
+            .alert(message ?? "", isPresented: $showAlert) {
+                Button("OK", role: .cancel) {
+                    if message == "Password reset email sent. Check your inbox." {
+                        dismiss()
+                    }
                 }
             }
+            .navigationBarBackButtonHidden(false)
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 
@@ -88,8 +139,30 @@ struct PasswordResetView: View {
     }
 }
 
-struct PasswordResetView_Previews: PreviewProvider {
-    static var previews: some View {
-        PasswordResetView()
+private struct IconTextField: View {
+    let systemIcon : String
+    let placeholder: String
+    @Binding var text: String
+    let keyboard   : UIKeyboardType
+    let isSecure   : Bool
+
+    var body: some View {
+        HStack {
+            Image(systemName: systemIcon)
+                .foregroundColor(.accentColor)
+            if isSecure {
+                SecureField(placeholder, text: $text)
+                    .autocapitalization(.none)
+            } else {
+                TextField(placeholder, text: $text)
+                    .keyboardType(keyboard)
+                    .autocapitalization(.none)
+            }
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(Color.surfaceColor.opacity(0.5))
+        .cornerRadius(8)
     }
 }
+

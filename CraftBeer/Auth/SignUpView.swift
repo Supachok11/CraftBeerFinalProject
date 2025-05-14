@@ -32,12 +32,6 @@ struct SignUpView: View {
                 VStack {
                     Spacer()
                     VStack(spacing: 16) {
-                        
-                        Image("AppLogo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                            .padding(.bottom, 8)
 
                         Text("Create Account")
                             .font(.largeTitle.bold())

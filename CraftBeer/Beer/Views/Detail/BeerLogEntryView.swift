@@ -99,7 +99,9 @@ struct BeerLogEntryView: View {
                 }
             }
             .alert("Error", isPresented: .constant(errorMsg != nil), actions: {
-                Button("OK", role: .cancel) { errorMsg = nil }
+                Button("OK", role: .cancel) {
+                    errorMsg = nil
+                }
             }, message: {
                 Text(errorMsg ?? "")
             })
@@ -109,7 +111,9 @@ struct BeerLogEntryView: View {
 
     // MARK: – Firestore write
     private func saveEntry() {
-        guard let uid = session.user?.uid else { return }
+        guard let uid = session.user?.uid else {
+            return
+        }
 
         saving = true
         let db   = Firestore.firestore()
@@ -126,8 +130,12 @@ struct BeerLogEntryView: View {
         db.collection("userLogs")
             .addDocument(data: entry) { err in
                 saving = false
-                if let err { errorMsg = err.localizedDescription }
-                else { isPresented = false }
+                if let err {
+                    errorMsg = err.localizedDescription
+                }
+                else {
+                    isPresented = false
+                }
             }
     }
 }

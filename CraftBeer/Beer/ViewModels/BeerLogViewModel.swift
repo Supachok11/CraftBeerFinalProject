@@ -52,7 +52,9 @@ final class BeerLogViewModel: ObservableObject {
                         }
                         return
                     }
-                    guard let doc = snap?.documents.first else { return }
+                    guard let doc = snap?.documents.first else {
+                        return
+                    }
                     doc.reference.delete { err in
                         DispatchQueue.main.async {
                             if let err {

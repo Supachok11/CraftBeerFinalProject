@@ -59,6 +59,7 @@ struct ProfileView: View {
                         }
                     }
                 }
+                .listRowBackground(Color.surfaceColor)
                 
                 // -------- quick stats -----------
                 Section("Activity") {
@@ -77,17 +78,24 @@ struct ProfileView: View {
                             .foregroundColor(.textSecondary)
                     }
                 }
+                .listRowBackground(Color.surfaceColor)
                 
                 // -------- account settings ------
                 Section("Account") {
                     TextField("Display name", text: $displayName, onCommit: saveDisplayName)
                         .textInputAutocapitalization(.words)
                     
-                    Button("Log Out", role: .destructive) { logOut() }
+                    Button("Log Out", role: .destructive) {
+                        logOut()
+                    }
                         .foregroundColor(.errorColor)
-                    Button("Delete Account", role: .destructive) { confirmDelete() }
+                    
+                    Button("Delete Account", role: .destructive) {
+                        confirmDelete()
+                    }
                         .foregroundColor(.errorColor)
                 }
+                .listRowBackground(Color.surfaceColor)
                 
                 // -------- appearance ------------
                 Section("Appearance") {
@@ -102,11 +110,16 @@ struct ProfileView: View {
                     }
                     // theme is applied at App level via .preferredColorScheme
                 }
+                .listRowBackground(Color.surfaceColor)
                 
                 if let err {
-                    Section { Text(err).foregroundColor(.errorColor) }
+                    Section {
+                        Text(err).foregroundColor(.errorColor)
+                    }
+                    .listRowBackground(Color.surfaceColor)
                 }
             }
+            .listStyle(.plain)
             .scrollContentBackground(.hidden)
             .background(Color.backgroundColor)
         }
@@ -146,7 +159,9 @@ struct ProfileView: View {
     }
     
     private func saveDisplayName() {
-        guard let user = Auth.auth().currentUser, !displayName.isEmpty else { return }
+        guard let user = Auth.auth().currentUser, !displayName.isEmpty else {
+            return
+        }
         Task {
             let request = user.createProfileChangeRequest()
             request.displayName = displayName
@@ -168,7 +183,9 @@ struct ProfileView: View {
     
     private func confirmDelete() {
         err = nil
-        guard let root = UIApplication.shared.windows.first?.rootViewController else { return }
+        guard let root = UIApplication.shared.windows.first?.rootViewController else {
+            return
+        }
         let alert = UIAlertController(
             title: "Delete Account?",
             message: "This is irreversible.",
@@ -194,7 +211,9 @@ struct ProfileView: View {
     // MARK: – Firestore-backed avatar Blob
     
     private func uploadAvatar(_ image: UIImage) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
         // Resize to max 256px
         let maxSide: CGFloat = 256
         let aspect = image.size.width / image.size.height
@@ -205,14 +224,21 @@ struct ProfileView: View {
         let resized = renderer.image { _ in
             image.draw(in: CGRect(origin: .zero, size: newSize))
         }
-        guard let data = resized.jpegData(compressionQuality: 0.5) else { return }
+        
+        guard let data = resized.jpegData(compressionQuality: 0.5) else {
+            return
+        }
+        
         let db = Firestore.firestore()
         db.collection("users").document(uid)
             .setData(["avatarBlob": data], merge: true)
     }
     
     private func loadAvatar() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
         let db = Firestore.firestore()
         db.collection("users").document(uid).getDocument { snap, _ in
             if let data = snap?.get("avatarBlob") as? Data,
@@ -228,7 +254,7 @@ struct ProfileView: View {
         switch appTheme {
         case "light":  UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .light
         case "dark":   UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
-        default:       UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
+        default:       UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .light
         }
     }
     
@@ -245,20 +271,27 @@ struct ProfileView: View {
             return picker
         }
         
-        func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+        func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
+        }
         
-        func makeCoordinator() -> Coordinator { Coordinator(self) }
+        func makeCoordinator() -> Coordinator {
+            Coordinator(self)
+        }
         
         class Coordinator: NSObject, PHPickerViewControllerDelegate {
             let parent: ImagePicker
-            init(_ parent: ImagePicker) { self.parent = parent }
+            init(_ parent: ImagePicker) {
+                self.parent = parent
+            }
             
             func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
                 picker.dismiss(animated: true)
                 guard
                     let provider = results.first?.itemProvider,
                     provider.canLoadObject(ofClass: UIImage.self)
-                else { return }
+                else {
+                    return
+                }
                 provider.loadObject(ofClass: UIImage.self) { image, _ in
                     DispatchQueue.main.async {
                         self.parent.image = image as? UIImage

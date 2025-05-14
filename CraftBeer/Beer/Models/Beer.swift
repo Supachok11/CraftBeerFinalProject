@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import FirebaseFirestore   // for @DocumentID
+import FirebaseCore
 
 /// Craft-beer entity pulled from Firestore’s **“beers”** collection.
 struct Beer: Identifiable, Codable {
@@ -24,21 +25,6 @@ struct Beer: Identifiable, Codable {
     var abv:          Double            // 5.5 → 5.5 % ABV
     var ibu:          Double?           // optional bitterness
     var releaseYear:  Int?              // optional first-release year
-    
-    // MARK: – Convenience
-    
-    /// Local placeholder when Firestore hasn’t loaded yet.
-    static let placeholder = Beer(
-        id: UUID().uuidString,
-        name: "Crafty Lager",
-        style: "Lager",
-        brewery: "Sample Brewery",
-        description: "A crisp, refreshing lager with subtle malt sweetness.",
-        image: "",
-        abv: 4.8,
-        ibu: nil,
-        releaseYear: nil
-    )
 }
 
 struct BeerLogEntry: Identifiable, Codable {
@@ -50,7 +36,6 @@ struct BeerLogEntry: Identifiable, Codable {
     var notes:    String
     var loggedDate: Date
 }
-
 
 struct BarLocation: Identifiable {
     let id   = UUID()

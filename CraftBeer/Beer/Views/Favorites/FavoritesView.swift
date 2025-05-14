@@ -46,8 +46,12 @@ struct FavoritesView: View {
             }
             .navigationTitle("My Favorites")
             .accentColor(.primary)
-            .onAppear { vm.startListening() }
-            .onDisappear { vm.stopListening() }
+            .onAppear {
+                vm.startListening()
+            }
+            .onDisappear {
+                vm.stopListening()
+            }
             .alert(item: $vm.error) { e in
                 Alert(title: Text("Error"),
                       message: Text(e.message),
